@@ -1,7 +1,7 @@
 <?php
 // Création de la connexion à la base de données
 $serveur = "localhost";
-$nom_de_la_base = "borabora";
+$nom_de_la_base = "boratest2";
 $utilisateur = 'root';
 $mot_de_passe = '';
 $pdo = new PDO(
