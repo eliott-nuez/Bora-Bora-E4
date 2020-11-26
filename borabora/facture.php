@@ -25,7 +25,7 @@ include_once "include/connexion.php";
   <link rel="stylesheet" type="text/css" media="screen" href="css/slider.css">
 </head>
 <body >
-<div style = 'background-image : url("img/vue.png");background-repeat: no-repeat;background-size: cover; height: 500px;'>
+<div id= "fond" style = 'background-image : url("img/vue.png");background-repeat: no-repeat;background-size: cover; height: 500px;'>
 
 <?php include_once 'include/header.php' ?>
 
@@ -219,19 +219,34 @@ $total=0;
 
 	
  </div>
+ <div id="editor"></div>
  <button id="print">Imprimer</button>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha256-c3RzsUWg+y2XljunEQS0LqWdQ04X1D3j22fd/8JCAKw=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+<script src="js/jspdf.debug.js"></script>
 <script>
-  $('body').on('click', '#print', function () {
-    var doc = new jsPDF({ orientation: 'landscape' });
-    doc.addHTML($('#facture')[0], 15, 15, {
-      'background': '#fff',
-    }, function() {
-      doc.save('facture-<?= $id ?>.pdf');
-    });
+  // $('body').on('click', '#print', function () {
+    // var doc = new jsPDF({ orientation: 'landscape' });
+    // doc.addHTML($('#facture')[0], 15, 15, {
+      // 'background': '#fff',
+    // }, function() {
+      // doc.save('facture-<?= $id ?>.pdf');
+    // });
+  // });
+  var doc = jsPDF({ orientation: 'landscape', format: "a4", fontSize: 8 });
+  doc.setLineHeightFactor(1);
+  var specialElementHandlers = {
+	  '#editor': function (element, renderer) {
+		  return true;
+	  }
+  };
+  
+  $('#print').click(function () {
+	  doc.fromHTML($('#facture')[0].outerHTML, 10, 15, {
+		  'elementHandlers': specialElementHandlers
+	  });
+	  doc.save('sample-file.pdf');
   });
 </script>
 </body>
